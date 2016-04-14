@@ -4,8 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
+import java.util.Properties;
 import java.util.Scanner;
 
 
@@ -14,8 +17,6 @@ import org.json.simple.JSONObject;
 public class client {
 	private Logger log = Logger.getLogger(getClass());
 	
-	int portNum = 1234;
-	String ip = "127.0.0.1";
 	Socket soc;
 	DataOutputStream dos;
 	DataInputStream dis;
@@ -32,6 +33,34 @@ public class client {
 	Thread tr;
 	
 	boolean isCan=false;
+	Properties prop;
+	String ip;
+	int portNum;
+	
+	public client(){
+		Config();
+	}
+	public void Config(){
+		prop = new Properties();
+		InputStream input = null;
+		try {
+			input = new FileInputStream("client.properties");
+			prop.load(input);
+			
+			portNum = Integer.parseInt(prop.getProperty("port"));
+			ip = prop.getProperty(ip);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
 	public static void main(String[] args) {
 		new client().connectServer();
