@@ -1,5 +1,15 @@
+/*
+ * Client
+ * 
+ * ver0.1
+ * 
+ * 2016³â 5¿ù 2ÀÏ
+ * 
+ * 
+ */
 package clientEx;
 
+import java.io.*;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -48,7 +58,7 @@ public class client {
 			prop.load(input);
 			
 			portNum = Integer.parseInt(prop.getProperty("port"));
-			ip = prop.getProperty(ip);
+			ip = prop.getProperty("ip");
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -82,7 +92,7 @@ public class client {
 					if(type.equals("end")){
 						break;
 					}else if(type.equals("getA")){
-						sendMsg = makeJSONPacket(type);
+						sendMsg = makeJSONPacket (type);
 					}else{
 						System.out.println("key :");
 						key = scan.nextLine();
